@@ -1,0 +1,19 @@
+{
+  "name": "it122_demo",
+  "version": "1.0.0",
+  "description": "First demo for node",
+  "main": "demo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ted-miller92/it122.git"
+  },
+  "author": "ted miller",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ted-miller92/it122/issues"
+  },
+  "homepage": "https://github.com/ted-miller92/it122#readme"
+}
