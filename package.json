@@ -10,10 +10,14 @@
     "type": "git",
     "url": "git+https://github.com/ted-miller92/it122.git"
   },
+  "type": "module",
   "author": "Ted Miller",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ted-miller92/it122/issues"
   },
-  "homepage": "https://github.com/ted-miller92/it122"
+  "homepage": "https://github.com/ted-miller92/it122",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
