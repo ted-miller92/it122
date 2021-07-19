@@ -1,33 +1,31 @@
 import http from 'http';
 import fs from 'fs';
-import * as bands from './data.js';
+import * as bands from "./data.js";
 import { parse } from "querystring";
 'use strict'
 import express from "express";
 
 var app = express();
 
-//Setting up handlebars view engine
-import exphbs from "express-handlebars";
-app.engine("handlebars", exphbs({defaultLayout: false}));
-app.set("view engine", "handlebars");
-
 // listen on default or port 3000
 app.set("port", process.env.PORT || 3000);
 
 //Set location for static files
-app.use(express.static("public"));
+app.use(express.static("./public"));
+
+//Setting up handlebars view engine
+import exphbs from "express-handlebars";
+app.engine("handlebars", exphbs({
+	defaultLayout: "main",
+	extname: ".handlebars"
+}));
+
+app.set("view engine", "handlebars");
 
 //parse url-encoded bodies
 app.use(express.urlencoded({extended: true}));
 
-
-// app.get('/', (req, res) => {
-// 	res.type("text/html");
-// 	res.sendFile('./public/home.html');
-// });
-
-// or, using handlebars...
+// Setting routes with Handlebars
 app.get('/', (req,res) => {
 	let result = bands.getAll();
 	res.render('home', {name: req.query.name, result, result});
@@ -52,7 +50,6 @@ app.use((req, res) => {
 app.listen(app.get("port"), () => {
 	console.log(`Express App Started on port ${app.get('port')}`);
 });
-
 
 //Strictly Node from here to end --------------------
 // http.createServer((req,res) => {

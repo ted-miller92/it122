@@ -1,0 +1,63 @@
+/*Colors
+Dark blue ish:  #28333b
+Khaki: rgb(214, 204, 163) or #D6CCA3
+Orange ish: rgb(214, 164, 97) or #D6A461
+Purple: rgb(167, 123, 202) or #A77BCA
+Red: rgb(224, 79, 57) or #E04F39
+Green: rgb(161, 216, 132) or #A1D884
+*/
+html{
+    font-family:sans-serif;
+
+}
+
+body {
+    background-color: #28333b;
+    line-height:150%;
+    margin:0;
+    padding:0;
+}
+.container {
+    max-width:72%;
+    background-color:#647e91;
+    margin:auto;
+    padding:0;
+    min-height:100vh;
+}
+.header{
+    margin:0vw 1vw;
+    border-bottom:2px solid #D6CCA3;
+}
+h1{
+    color:white;
+    font-size:290%;
+    padding:1vw 0vw;
+}
+p{
+    color:white;
+    font-size:200%;
+    padding:1vw;
+    
+}
+nav{
+    width:100%;
+}
+nav a{
+    padding:3vw 0vw;
+    font-size:200%;
+    text-decoration:none;
+}
+a{
+    color:#A1D884;
+}
+a:hover{
+    color: #D6A461;
+}
+ul{
+    padding:1vw 2vw;
+    list-style:disc;
+    color:white;
+}
+li{
+    font-size:120%;
+}

@@ -1,24 +1,7 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>IT 122 Home Page</title>
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    </head>
-    <body>
-        <div class="container">
-            <div class="header jumbotron">
-                <h1 >Five Bands</h1>
-                <nav class="nav nav-pills pull-left">
-                    <a href="/">Home</a>
-                </nav>
-            </div>
-            <p class="lead">A short list of five bands and some brief information about each of them</p>
-            <ul>
-                {{#each result}}
-                <li><a href="detail?name={{name}}">{{name}}</a></li>
-                {{/each}}
-            </ul>
-        </div>
-    </body>
-</html>
+<p class="lead">A short list of five bands and some brief information about each
+	of them</p>
+<ul>
+	{{#each result}}
+		<li><a href="detail?name={{name}}">{{name}}</a></li>
+	{{/each}}
+</ul>
