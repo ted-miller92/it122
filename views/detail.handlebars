@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Results for {{name}}</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+            <div class="header jumbotron">
+                <h1 >Five Bands</h1>
+                <nav class="nav nav-pills pull-left">
+                    <a href="/">Home</a>
+                </nav>
+            </div>
+            
+            <p class="lead">Showing results for {{name}}</p>
+            <ul>
+                <li>Name: {{result.name}}</li>
+                <li>Year Formed: {{result.yearFormed}}</li>
+                <li>Genre: {{result.genre}}</li>
+                <li>Location of origin: {{result.location}}</li>    
+            </ul>
+        </div>
+    </body>
+</html>

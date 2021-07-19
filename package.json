@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/ted-miller92/it122",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.2"
   }
 }
