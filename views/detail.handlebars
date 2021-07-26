@@ -1,7 +1,9 @@
-<p class="lead">Showing results for {{name}}</p>
+<p class="lead">Showing results for {{bands.name}}</p>
 <ul>
-    <li>Name: {{result.name}}</li>
-    <li>Year Formed: {{result.yearFormed}}</li>
-    <li>Genre: {{result.genre}}</li>
-    <li>Location of origin: {{result.location}}</li>
+    <li>Name: {{bands.name}}</li>
+    <li>Year Formed: {{bands.yearFormed}}</li>
+    <li>Genre: {{bands.genre}}</li>
+    <li>Location of origin: {{bands.location}}</li>
 </ul>
+
+<a class="delete" href="delete?name={{bands.name}}">Delete record for {{bands.name}}</a>
