@@ -1,10 +1,7 @@
-import http from "http";
-import fs from "fs";
-import * as bands from "./data.js";
-import { parse } from "querystring";
 ("use strict");
 import express from "express";
 import { Band } from "./models/Bands.js";
+import cors from 'cors';
 
 var app = express();
 
@@ -23,13 +20,15 @@ app.engine(
 		extname: ".handlebars",
 	})
 );
-
 app.set("view engine", "handlebars");
 
 //parse url-encoded bodies
 app.use(express.urlencoded({ extended: true }));
 
-// Setting routes with Handlebars
+// Allow cross-origin resource sharing using cors
+app.use('/api/', cors());
+
+// Setting routes with Handlebars -----------------------------------------
 
 // Home page GET with MongoDB
 app.get("/", (req, res, next) => {
@@ -53,13 +52,14 @@ app.get("/detail", (req, res, next) => {
 		})
 		.catch((err) => next(err));
 });
+
 // Delete record/document from SCCDB
 app.get("/delete", (req, res, next) => {
-	console.log(`Deleting record for {$req.query.name}`);
+	console.log(`Deleting record for ${req.query.name}`);
 	var bandName = req.query.name
 	Band.deleteOne({ "name" : req.query.name}).lean()
 		.then((bands) => {
-			console.log(`Found record for ${req.query.name}`);
+			console.log(`Deleted record for ${req.query.name}`);
 			res.render("deleted", {bandName});
 		})
 		.catch((err) => next(err));
@@ -72,11 +72,67 @@ app.get("/delete", (req, res, next) => {
 		.catch((err) => next(err));
 });
 
-// Previous GET method before connecting to MongoDB
-// app.get("/detail", (req, res) => {
-// 	let result = bands.getItem(req.query.name);
-// 	res.render("detail", { name: req.query.name, result: result });
-// });
+// BEGIN API -----------------------------------------------------
+
+//API For all bands data
+app.get("/api/bands", (req, res, next) => {
+	console.log("Retrieving API for all bands");
+	Band.find({}, (err, bands) => {
+		if (err || !bands) {
+			res.status(404).json({"Error":`Bands not found`});
+			console.log(`Error retreiving details for bands`);
+		} else {
+			res.json(bands);
+			console.log(`Retrieved data for bands`);
+		}
+	})
+})
+
+//API for single band data
+app.get('/api/detail', (req, res, next) => {
+	Band.findOne({"name" :req.query.name}, (err, band) => {
+		if (err || !band) {
+			res.status(404).json({"Error":`Details for ${req.query.name} not found`});
+			console.log(`Error retrieving details for ${req.query.name}`);
+		} else {
+			res.json(band);
+			console.log(`Retrieved data for ${req.query.name}`);
+		}
+	})
+});
+
+//API for creating an item (POST)
+app.post('/api/bands', (req, res) =>{
+	const band = new Band({
+		name:req.body.name,
+		genre:req.body.genre,
+		yearFormed:req.body.yearFormed,
+		location:req.body.location
+	},
+	{
+		versionKey: false
+	});
+	Band.create(band, (err, band) => {
+		if (err || !band) {
+			res.status(404).json({"Error": "Could not create a new Band"});
+			console.log("Error: Could not create new band");
+		}else{
+			res.json(band);
+		}
+	});
+});
+
+//API for deleting an item
+app.get('/api/delete', (req, res) => {
+	Band.deleteOne({ "name" : req.query.name}, (err, result) => {
+		if (err) {
+			res.status(404).json({"Error": "Could not delete band"});
+			console.log("Error: Could not delete band");
+		}else{
+			res.json(result.deletedCount);		//return number of deleted items
+		}
+	})
+})
 
 app.get("/about", (req, res) => {
 	res.type("text/plain");
@@ -94,42 +150,3 @@ app.use((req, res) => {
 app.listen(app.get("port"), () => {
 	console.log(`Express App Started on port ${app.get("port")}`);
 });
-
-// Strictly Node from here to end --------------------
-// http.createServer((req,res) => {
-
-// 	let url = req.url.split("?");  // separate route from query string
-// 	let query = parse(url[1]); // convert query string to a JS object
-// 	console.log(query.name);
-
-// 	let path = url[0].toLowerCase();
-
-// 	switch(path) {
-// 		case '/':
-// 			res.writeHead(200, {'Content-Type' : 'text/plain'});
-// 			res.end(JSON.stringify(bands.getAll()));
-// 			break;
-// 		case '/about':
-// 			res.writeHead(200, {'Content-Type' : 'text/plain'});
-// 			res.write('About Page\n');
-// 			res.write('This is my first node.js page. The second, if you count the Home Page.\n');
-// 			res.end('I started learning web authoring and development in the Summer of 2020, when I found myself with no income and a lot of time on my hands...\nSince then, I\'ve learned HTML, CSS, and some rudimentary Javascript and Python.');
-// 			break;
-// 		case '/detail':
-// 			let bandName = bands.getItem(query.name);
-
-// 			let results;
-// 			if (bandName){
-// 				results = JSON.stringify(bandName);
-// 			} else {
-// 				results = "Does Not Exist";
-// 			}
-// 			res.writeHead(200, {'Content-Type' : 'text/plain'});
-// 			res.end(results);
-// 			break;
-// 		default:
-// 			res.writeHead(404, {'Content-Type' : 'text/plain'});
-// 			res.end('Not Found');
-// 			break;
-// 	}
-// }).listen(process.env.PORT || 3000);

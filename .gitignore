@@ -10,5 +10,5 @@ classwork
 bookwork
 node_modules
 .eslintrc.json
-lib/credentials.js
+# lib/credentials.js
 testdb.js
