@@ -37,7 +37,7 @@ app.get("/", (req, res, next) => {
 		.then((bands) => {
 			console.log("Retrieved data from SCCDB");
 			// return bands;
-			res.render("home", { bands });
+			res.render("home", {bands : JSON.stringify(bands)});
 		})
 		.catch((err) => next(err));
 });

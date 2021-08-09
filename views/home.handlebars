@@ -1,7 +1,27 @@
-<p class="lead">A short list of five bands and some brief information about each
-	of them</p>
-<ul>
-	{{#each bands}}
-		<li><a href="detail?name={{name}}">{{name}}</a></li>
-	{{/each}}
-</ul>
+<div id="root"></div>
+<script type="text/babel">
+	const bands = {{{bands}}};
+	console.log(bands);
+
+	const bandArray = []
+	for (var name in bands){
+		bandArray.push(bands[name].name);
+	}
+
+	const Detail = (e) => {
+		var detail = e.target.innerText;
+		console.log(detail);
+		window.location.href = "./detail?name=" + detail;
+	}
+
+	const bandList = bandArray.map((item) =>  <li key={item} onClick={Detail}>{item}</li>);
+	
+	const MyApp = () => {
+		return <ul>{bandList}</ul>;
+	}
+
+	ReactDOM.render(
+		<MyApp/>,
+		document.getElementById('root')
+	);
+</script>

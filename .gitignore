@@ -12,3 +12,5 @@ node_modules
 .eslintrc.json
 # lib/credentials.js
 testdb.js
+tryReact.html
+mainReact.handlebars
