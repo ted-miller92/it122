@@ -3,25 +3,76 @@
 	const bands = {{{bands}}};
 	console.log(bands);
 
-	const bandArray = []
-	for (var name in bands){
-		bandArray.push(bands[name].name);
+	const BandList = (props) => {
+		console.log(props);
+		const list = props.data.map((band) => 
+		<li key={band._id} id={band._id} name={band.name} genre={band.genre} onClick={props.clickHandler}>
+			{band.name}
+		</li>);
+		return <ul>{list}</ul>;
 	}
-
-	const Detail = (e) => {
-		var detail = e.target.innerText;
-		console.log(detail);
-		window.location.href = "./detail?name=" + detail;
-	}
-
-	const bandList = bandArray.map((item) =>  <li key={item} onClick={Detail}>{item}</li>);
 	
-	const MyApp = () => {
-		return <ul>{bandList}</ul>;
+	const GetDetails = (e) => {
+		console.log(e.target);
+		const details = bands.find((band) => band._id == e.target.id);
+		console.log(details);
+		return details;
 	}
 
-	ReactDOM.render(
-		<MyApp/>,
-		document.getElementById('root')
+	const DetailView = (props) => {
+		return <div>
+				<h2>Band Details:</h2>
+				<form>
+					Title: <input type="text" name="name" onChange={props.onChange} value={props.band.name || ""}/><br/>
+					Genre: <input type="text" name="genre" onChange={props.onChange} value={props.band.genre || ""}/><br/>
+					Year Formed: <input type="text" name="yearFormed" onChange={props.onChange} value={props.band.yearFormed || ""}/><br/>
+					Origin: <input type="text" name="location" onChange={props.onChange} value={props.band.location || ""}/><br/>
+				</form>
+				<p>{props.band.name} is a {props.band.genre} artist from {props.band.location}, formed in {props.band.yearFormed}</p>
+			</div>;
+	}
+
+	class App extends React.Component {
+  		constructor(props) {
+    		super(props);
+    		this.state = {current_band: {}};
+  		}
+
+		getDetails = (e) => {
+			console.log(e.target);
+			const details = bands.find((band) => band._id == e.target.id);
+			console.log(details);
+			this.setState({"current_band": details})
+		}
+
+		onChange = (e) => {
+			console.log(e.target);
+			const new_band = this.state.current_band;
+			new_band[e.target.name] = e.target.value;
+			console.log(new_band);
+			this.setState({"current_band": new_band})
+		}
+		
+  		render() {
+    		return ( 
+				<div> 
+					<BandList data={bands} clickHandler={this.getDetails}/>
+					<DetailView band={this.state.current_band} onChange={this.onChange}/>
+				</div> 
+			);
+  		}
+	}
+
+	ReactDOM.render(  
+		<App />,
+		document.getElementById('root') 
 	);
+
+	{{!-- ReactDOM.render(
+		<div>
+			<BandList data={bands} clickHandler={GetDetails}/>
+			<DetailView band={GetDetails}/>
+		</div>,
+		document.getElementById('root')
+	); --}}
 </script>
