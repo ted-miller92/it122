@@ -28,6 +28,8 @@
 					Year Formed: <input type="text" name="yearFormed" onChange={props.onChange} value={props.band.yearFormed || ""}/><br/>
 					Origin: <input type="text" name="location" onChange={props.onChange} value={props.band.location || ""}/><br/>
 				</form>
+				<button onClick={props.onClear}>Clear</button>
+				<button onClick={props.onSave}>Save</button>
 				<p>{props.band.name} is a {props.band.genre} artist from {props.band.location}, formed in {props.band.yearFormed}</p>
 			</div>;
 	}
@@ -50,14 +52,31 @@
 			const new_band = this.state.current_band;
 			new_band[e.target.name] = e.target.value;
 			console.log(new_band);
-			this.setState({"current_band": new_band})
+			this.setState({"current_band": new_band});
+		}
+
+		onClear = (e) => {
+			this.setState({"current_band": {}});
+		}
+		
+		onSave = (e) => {
+			console.log('save');
+			let band = this.state.current_band;
+
+			fetch('/api/bands', {
+				method: "POST",
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(band)
+			})
+    		.then(res => res.json())
+    		.then((json) => { console.log(json) });
 		}
 		
   		render() {
     		return ( 
 				<div> 
 					<BandList data={bands} clickHandler={this.getDetails}/>
-					<DetailView band={this.state.current_band} onChange={this.onChange}/>
+					<DetailView band={this.state.current_band} onChange={this.onChange} onSave={this.onSave} onClear={this.onClear}/>
 				</div> 
 			);
   		}

@@ -103,20 +103,20 @@ app.get('/api/detail', (req, res, next) => {
 
 //API for creating an item (POST)
 app.post('/api/bands', (req, res) =>{
-	const band = new Band({
-		name:req.body.name,
-		genre:req.body.genre,
-		yearFormed:req.body.yearFormed,
-		location:req.body.location
-	},
-	{
-		versionKey: false
-	});
 	Band.create(band, (err, band) => {
 		if (err || !band) {
 			res.status(404).json({"Error": "Could not create a new Band"});
 			console.log("Error: Could not create new band");
 		}else{
+			const band = new Band({
+				name:req.body.name,
+				genre:req.body.genre,
+				yearFormed:req.body.yearFormed,
+				location:req.body.location
+			},
+			{
+				versionKey: false
+			});
 			res.json(band);
 		}
 	});
